@@ -2,10 +2,10 @@
 Python library that uses the fping executable as its ping engine.
 
 ### Requirements
-Python 2.7 on Linux or Mac OS X
-(Python 3.5 compatibility is in the works, but not there yet.)
-netaddr library (e.g. pip install netaddr)
-Custom, forked build of fping (see Installation).
+* Python 2.7 on Linux or Mac OS X (Python 3.5 compatibility is in the works,
+ but not there yet.)
+* netaddr library (e.g. pip install netaddr)
+* Custom, forked build of fping (see Installation).
 
 ### Installation
 This library requires a forked version of fping, that has an added option to
@@ -17,12 +17,12 @@ be downloading the files directly from github, DO NOT skip step 1.
 * If you have issues running autogen.sh, please make sure that you have 
 installed the automake package that is appropriate for your Linux distribution.
 * For Mac OS X you will need:
-    1. Xcode installed from the app store (launch it via gui at least once 
+    * Xcode installed from the app store (launch it via gui at least once 
     after install)
-    2. Xcode command line developer tools via 'xcode-select --install'
-    3. Accept the command line license agreement via
+    * Xcode command line developer tools via 'xcode-select --install'
+    * Accept the command line license agreement via
     'sudo xcodebuild -license accept'
-    4. Install homebrew, and then use 'brew install automake'
+    * Install homebrew, and then use 'brew install automake'
 
 ### Usage
 Though this is a work in progress, in its current state, this script is 
