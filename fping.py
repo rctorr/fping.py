@@ -54,6 +54,9 @@ class FastPing(object):
             raise SystemError('Executable fping file not found.')
         else:
             self.fping = spawn.find_executable('fping')
+            if subprocess.check_output([self.fping, '-v']).find('csv') < 0:
+                raise SystemError('Acceptable version of fping executable not '
+                                  'found.')
         self.results = dict()
         self.num_pools = 128
 
