@@ -71,6 +71,3 @@ include
 lib
 share
 pip-selfcheck.json
-
-#Integration test scripts and files
-tests/
