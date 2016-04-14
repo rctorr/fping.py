@@ -24,6 +24,11 @@ installed the automake package that is appropriate for your Linux distribution.
     'sudo xcodebuild -license accept'
     * Install homebrew, and then use 'brew install automake'
 
+Once the fping executable has been compiled and installed, simply use pip
+to install the fping package from pypi.python.org.  e.g.:
+
+    pip install fping
+
 ### Usage
 Though this is a work in progress, in its current state, this script is 
 intended to be a library that is called and executed either in the (i)python 
