@@ -1,3 +1,10 @@
+[![PyPI Downloads](https://img.shields.io/pypi/dm/fping.svg)](https://pypi.python.org/pypi/fping)
+[![Version](https://img.shields.io/pypi/v/fping.svg)](https://pypi.python.org/pypi/fping)
+[![Status](https://img.shields.io/pypi/status/fping.svg)](https://pypi.python.org/pypi/fping)
+[![PyVersions](https://img.shields.io/pypi/pyversions/fping.svg)](https://pypi.python.org/pypi/fping)
+[![License](https://img.shields.io/pypi/l/fping.svg)](https://pypi.python.org/pypi/fping)
+[![Format](https://img.shields.io/pypi/format/fping.svg)](https://pypi.python.org/pypi/fping)
+
 # fping.py
 Python library that uses the fping executable as its ping engine.
 
@@ -14,6 +21,7 @@ output the basic alive, unreachable and unresolvable hosts in CSV format.
 * Go to https://github.com/NetworkEng/fping and follow the installation
 instructions there to compile and install the custom version. Since you will
 be downloading the files directly from github, DO NOT skip step 1.
+Download Link: https://github.com/NetworkEng/fping/archive/develop.tar.gz 
 * If you have issues running autogen.sh, please make sure that you have 
 installed the automake package that is appropriate for your Linux distribution.
 * For Mac OS X you will need:
