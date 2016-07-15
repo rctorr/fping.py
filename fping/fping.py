@@ -61,7 +61,9 @@ class FastPing(object):
         self.results = dict()
         self.num_pools = 128
 
-    def ping(self, targets=list(), filename=str(), status=str(), notDNS=False):
+    def ping(self, targets=list(), filename=str(), status=str(), notDNS=False,
+        elapsed=False
+    ):
         """
         Attempt to ping a list of hosts or networks (can be a single host)
         :param targets: List - Name(s) or IP(s) of the host(s).
@@ -70,7 +72,9 @@ class FastPing(object):
         return results that have that status. If this is not specified,
         then all results will be returned.
         :param notDNS: Bolean - If True turn on use of -A option for fping for
-        not use dns resolve names. Default is False
+        not use dns resolve names. Default is False.
+        :param elapsed: Bolean - If True turn on use of -e option for fping for
+        show elapsed time on return packets. Default is False.
         :return: Type and results depends on whether status is specified:
                  if status == '': return dict: {targets: results}
                  if status != '': return list: targets if targets == status
@@ -171,6 +175,8 @@ class FastPing(object):
             options += 'A' # show targets by ip
         else:
             options += 'n' # show target by name
+        if elapsed:
+            options += 'e' # show elapsed time on return packets
 
         """
         Build the list of commands to run.
@@ -194,7 +200,7 @@ class FastPing(object):
         raw_results = pool.map(self.get_results, commands)
         pool.close()
         pool.join()
-        self.results = {target: result for target, host, result in csv.reader(
+        self.results = {line[0]: line[2:] for line in csv.reader(
             ''.join(raw_results).splitlines())}
         if not status:
             return self.results
@@ -243,7 +249,7 @@ class FastPing(object):
         Parse results and return list of hosts that are responding to ping
         :return: List - hosts that replied
         """
-        return [host for host in self.results if self.results[host] == 'alive']
+        return [host for host in self.results if self.results[host][0] == 'alive']
 
     @property
     def dead(self):
@@ -251,7 +257,7 @@ class FastPing(object):
         Parse results and return list of hosts that are not responding to ping
         :return: List - hosts that did not respond
         """
-        return [host for host in self.results if self.results[host] ==
+        return [host for host in self.results if self.results[host][0] ==
                 'unreachable']
 
     @property
@@ -260,5 +266,5 @@ class FastPing(object):
         Parse results and return a list of hosts whose IP address was not found
         :return: List - host names that failed IP lookup
         """
-        return [host for host in self.results if self.results[host] ==
+        return [host for host in self.results if self.results[host][0] ==
                 'unresolvable']
