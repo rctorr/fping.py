@@ -8,6 +8,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 from netaddr import IPAddress, IPNetwork, AddrFormatError
 
 __author__ = 'NetworkEng - https://github.com/NetworkEng/fping.py'
+__author__ = 'rctorr - https://github.com/rctorr/fping.py'
 
 # TODO - Add function to ping a range of IP's
 # TODO - Add ability to ping hosts within /31 and /32 masks
@@ -60,7 +61,7 @@ class FastPing(object):
         self.results = dict()
         self.num_pools = 128
 
-    def ping(self, targets=list(), filename=str(), status=str()):
+    def ping(self, targets=list(), filename=str(), status=str(), notDNS=False):
         """
         Attempt to ping a list of hosts or networks (can be a single host)
         :param targets: List - Name(s) or IP(s) of the host(s).
@@ -68,6 +69,8 @@ class FastPing(object):
         :param status: String - if one of ['alive', 'dead', 'noip'] then only
         return results that have that status. If this is not specified,
         then all results will be returned.
+        :param notDNS: Bolean - If True turn on use of -A option for fping for
+        not use dns resolve names. Default is False
         :return: Type and results depends on whether status is specified:
                  if status == '': return dict: {targets: results}
                  if status != '': return list: targets if targets == status
@@ -161,16 +164,26 @@ class FastPing(object):
                         raise AttributeError(msg)
 
         """
+        Build the list of common options for commands to run.
+        """
+        options = '-V' # This is for default
+        if notDNS:
+            options += 'A' # show targets by ip
+        else:
+            options += 'n' # show target by name
+
+        """
         Build the list of commands to run.
         """
         commands = []
         if len(my_targets['hosts']) != 0:
             for target in range(len(my_targets['hosts'])):
-                commands.append([self.fping, '-nV', my_targets['hosts'][
+                commands.append([self.fping, options, my_targets['hosts'][
                     target]])
         if len(my_targets['nets']) != 0:
             for target in range(len(my_targets['nets'])):
-                commands.append([self.fping, '-ngV', my_targets['nets'][
+                netops = options + 'g' # generate target list for net target
+                commands.append([self.fping, netops, my_targets['nets'][
                     target]])
 
         """
