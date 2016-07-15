@@ -194,7 +194,7 @@ class FastPing(object):
         raw_results = pool.map(self.get_results, commands)
         pool.close()
         pool.join()
-        self.results = {host: result for host, result in csv.reader(
+        self.results = {target: result for target, host, result in csv.reader(
             ''.join(raw_results).splitlines())}
         if not status:
             return self.results
@@ -215,11 +215,11 @@ class FastPing(object):
             return lines
         Get the ping results using fping.
         :param cmd: List - the fping command and its options
-        :return: String - raw string output containing csv fping results
-        including the newline characters
+        :return: String - raw string output containing csv host target more
+        fping results including the newline characters
         """
         try:
-            return subprocess.check_output(cmd)
+            return cmd[-1]+','+subprocess.check_output(cmd)
         except subprocess.CalledProcessError as e:
             return e.output
 
